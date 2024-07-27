@@ -26,6 +26,12 @@ class Toad(ABC):
         """метод получения названия класса жабы"""
         
         pass
+    
+    @abstractmethod
+    def get_health() -> int:
+        """метод получения здоровья жабы"""
+        
+        pass
 
 
 class Assassin(Toad):
@@ -51,6 +57,11 @@ class Assassin(Toad):
         """метод получения названия класса жабы"""
         
         return self.__class__.__name__
+    
+    def get_health(self) -> int:
+        """метод получения здоровья жабы"""
+        
+        return max(0, self.health)
 
 
 class Adventurer(Toad):
@@ -76,6 +87,11 @@ class Adventurer(Toad):
         """метод получения названия класса жабы"""
         
         return self.__class__.__name__
+    
+    def get_health(self) -> int:
+        """метод получения здоровья жабы"""
+        
+        return max(0, self.health)
 
 
 class Craftsman(Toad):
@@ -99,6 +115,30 @@ class Craftsman(Toad):
         """метод получения названия класса жабы"""
         
         return self.__class__.__name__
+    
+    def get_health(self) -> int:
+        """метод получения здоровья жабы"""
+        
+        return max(0, self.health)
+
+
+def random_class():
+    """Функция вернёт случайный класс для жабы"""
+
+    list_class = [Assassin, Adventurer, Craftsman]
+    random_index = randint(0, len(list_class) - 1)
+
+    return list_class[random_index]
+
+
+def perform_attack(attacker, defender) -> bool:
+    """Выполняет атаку жабы."""
+    
+    damage = max(0, attacker().get_attack() - defender().get_armor())
+    if damage > 0:
+        defender.health -= damage
+        return True
+    return False
 
 
 if __name__ == '__main__':
@@ -125,3 +165,5 @@ if __name__ == '__main__':
     print(toad_craftsman.get_class_name(), 'класс жабы')
     print(toad_craftsman.get_armor(), 'танкует')
     print(toad_craftsman.get_attack(), 'атакует\n')
+
+    print(random_class(), 'случайный класс жабы')
